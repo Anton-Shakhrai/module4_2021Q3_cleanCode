@@ -1,8 +1,11 @@
 import models.MilitaryType;
-import Planes.MilitaryPlane;
-import Planes.PassengerPlane;
-import Planes.Plane;
+import planes.MilitaryPlane;
+import planes.PassengerPlane;
+import planes.Plane;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -24,17 +27,25 @@ public class Runner {
             new MilitaryPlane("C-130 Hercules", 650, 5000, 110000, MilitaryType.TRANSPORT)
     );
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         Airport airport = new Airport(planes);
         Airport militaryAirport = new Airport(airport.getMilitaryPlanes());
-        Airport passengerAirport = new Airport(airport.getPasPl());
-        System.out.println("Military airport sorted by max distance: " + militaryAirport
-                .sortByMaxDistance()
-                .toString());
-        System.out.println("Passenger airport sorted by max speed: " + passengerAirport
-                .sortByMaxSpeed()
-                .toString());
+        Airport passengerAirport = new Airport(airport.getPassengerPlanes());
 
-        System.out.println("Plane with max passenger capacity: " + passengerAirport.getPassengerPlaneWithMaxPassengersCapacity());
+        // System.out.println action is replaced by writing data into files
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter("militaryAirplanes"))) {
+            writer.write(String.valueOf(militaryAirport.sortByMaxDistance()));
+            writer.close();
+        }
+
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter("passengerAirplanes"))) {
+            writer.write(String.valueOf(militaryAirport.sortByMaxSpeed()));
+            writer.close();
+        }
+
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter("passengerAirplaneMaxCapacity"))) {
+            writer.write(String.valueOf(passengerAirport.getPassengerPlaneWithMaxPassengersCapacity()));
+            writer.close();
+        }
     }
 }

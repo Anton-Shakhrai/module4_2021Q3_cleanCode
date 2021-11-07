@@ -1,5 +1,5 @@
 package models;
 
 public enum ClassificationLevel {
-    UNCLASSIFIED, CONFIDENTIAL, SECRET, TOP_SECRET
+    UNCLASSIFIED, SECRET, TOPSECRET // TOP_SECRET renamed to TOPSECRET. Avoiding Hungarian notation
 }
