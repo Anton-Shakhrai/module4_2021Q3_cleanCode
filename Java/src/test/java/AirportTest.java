@@ -33,27 +33,32 @@ public class AirportTest {
 
     Airport airport = new Airport(planes); // 'airport' variable common for all tests. Was located out of tests bounds.
 
-    @Test
-    public void testGetTransportMilitaryPlanes() {
-        List<MilitaryPlane> transportMilitaryPlanes = airport.getTransportMilitaryPlanes();
-        Assert.assertTrue(transportMilitaryPlanes.contains(MilitaryType.TRANSPORT));
+  @Test
+  public void testMilitaryPlanesHasTransportType() {
+    List<MilitaryPlane> transportMilitaryPlanes = airport.getTransportMilitaryPlanes();
+    for (planes.MilitaryPlane transportMilitaryPlane : transportMilitaryPlanes) {
+        Assert.assertEquals(transportMilitaryPlane.getMilitaryType(), MilitaryType.TRANSPORT);
+        }
     }
 
     @Test
-    public void testGetPassengerPlaneWithMaxPassengersCapacity() {
+    public void testPassengerPlaneHasMaxPassengersCapacity() {
 //        System.out.println is removed from test
         PassengerPlane expectedPlaneWithMaxPassengersCapacity = airport.getPassengerPlaneWithMaxPassengersCapacity();
         Assert.assertEquals(expectedPlaneWithMaxPassengersCapacity.getPassengersCapacity(), 242);
     }
 
     @Test
-    public void testSortByMaxLoadCapacity() {
+    public void testSortingByMaxLoadCapacity() {
         List<? extends Plane> planesSortedByMaxLoadCapacity = airport.sortByMaxLoadCapacity().getPlanes();
-        Assert.assertEquals(planesSortedByMaxLoadCapacity, airport.sortByMaxLoadCapacity());
-    }
+        for (int i = 0; i < planesSortedByMaxLoadCapacity.size() - 1; i++) {
+            Assert.assertTrue(planesSortedByMaxLoadCapacity.get(i).getMaxLoadCapacity() <=
+                planesSortedByMaxLoadCapacity.get(i+1).getMaxLoadCapacity());
+            }
+        }
 
     @Test
-    public void testHasAtLeastOneBomberMilitaryPlanes() {
+    public void testMilitaryPlanesHasAtLeastOneBomber() {
         List<MilitaryPlane> bomberMilitaryPlanes = airport.getBomberMilitaryPlanes(); // loops and conditions removed
         Assert.assertFalse(bomberMilitaryPlanes.isEmpty());
     }
@@ -61,6 +66,8 @@ public class AirportTest {
     @Test
     public void testExistanceUnclassifiedPlanes(){
         List<ExperimentalPlane> experimentalPlanes = airport.getExperimentalPlanes(); // loops and conditions removed
-        Assert.assertFalse(experimentalPlanes.contains(ClassificationLevel.UNCLASSIFIED));
+        for (planes.ExperimentalPlane experimentalPlane : experimentalPlanes) {
+        Assert.assertNotEquals(experimentalPlane.getClassificationLevel(), ClassificationLevel.UNCLASSIFIED);
     }
+        }
 }
